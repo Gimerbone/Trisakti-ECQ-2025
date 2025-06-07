@@ -15,7 +15,7 @@ const DisplayTimer: React.FC<DisplayTimerProps> = ({handleExpire, timerID}) => {
       alignItems: "flex-start",
       justifyContent: "center",
     }}>
-      <Timer durationSeconds={120} onExpire={handleExpire} timerId={timerID} />
+      <Timer durationSeconds={3600} onExpire={handleExpire} timerId={timerID} />
     </header>
   );
 };
