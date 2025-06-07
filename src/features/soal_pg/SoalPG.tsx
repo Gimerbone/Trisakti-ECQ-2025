@@ -14,6 +14,13 @@ export const QuizPG = (): React.ReactElement => {
     const timerID = "quizpg";
 
     useEffect(() => {
+    if (window.self !== window.top) {
+        // Page is being loaded inside an iframe
+        window.top!.location.href = window.location.href;
+    }
+    }, []);
+
+    useEffect(() => {
         if (!user) return;
 
         const checkExpiration = async () => {

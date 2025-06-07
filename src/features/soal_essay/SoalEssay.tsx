@@ -14,6 +14,13 @@ export const QuizEssay = (): React.ReactElement => {
     const timerID = "quizessay";
 
     useEffect(() => {
+    if (window.self !== window.top) {
+        // Page is being loaded inside an iframe
+        window.top!.location.href = window.location.href;
+    }
+    }, []);
+
+    useEffect(() => {
         if (!user) return;
 
         const checkExpiration = async () => {
