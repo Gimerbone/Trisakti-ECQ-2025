@@ -1,5 +1,5 @@
 // src/components/Timer.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { FC } from "react";
 import { useAuth } from "../context/AuthContext";
 import { doc, getDoc, setDoc } from "firebase/firestore";
