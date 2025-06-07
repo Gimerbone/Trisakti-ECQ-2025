@@ -22,28 +22,32 @@ const Timer: FC<TimerProps> = ({ durationSeconds, onExpire, timerId }) => {
     let intervalId: ReturnType<typeof setInterval>;
 
     (async () => {
-      const snap = await getDoc(timerDoc);
-      if (snap.exists()) {
+    try {
+        const snap = await getDoc(timerDoc);
+        if (snap.exists()) {
         startTime = snap.data().startTime as number;
-      } else {
+        } else {
         startTime = Date.now();
         await setDoc(timerDoc, { startTime });
-      }
+        }
 
-      const tick = () => {
+        const tick = () => {
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
         const rem = durationSeconds - elapsed;
         if (rem <= 0) {
-          clearInterval(intervalId);
-          setRemaining(0);
-          onExpire();
+            clearInterval(intervalId);
+            setRemaining(0);
+            onExpire();
         } else {
-          setRemaining(rem);
+            setRemaining(rem);
         }
-      };
+        };
 
-      tick();
-      intervalId = setInterval(tick, 1000);
+        tick();
+        intervalId = setInterval(tick, 1000);
+    } catch (err) {
+        console.error("Failed to load or create timer doc:", err);
+    }
     })();
 
     return () => clearInterval(intervalId);

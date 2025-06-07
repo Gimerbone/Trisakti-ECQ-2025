@@ -1,14 +1,47 @@
-import DisplayTimer from "../../components/DisplayTimer"
-import { submitGoogleForm } from "../../helper/ForceSubmit"
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import DisplayTimer from "../../components/DisplayTimer";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../store/firebase";
 
 export const QuizEssay = (): React.ReactElement => {
+    const navigate = useNavigate();
+    const { user } = useAuth(); // must be logged in
+    const [loading, setLoading] = useState(true);
+    const hasExpired = useRef(false);
 
-    const handleExpire = () => {
-        const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSeJ-Ni5_fRfKZJ-K3vptF9B9_UbE-SB9hkkjxcHZjL93Y2bnA/formResponse"; 
-        submitGoogleForm(formUrl, {});
+    const timerID = "quizessay";
 
-        alert("Time's Up")
-    }
+    useEffect(() => {
+        if (!user) return;
+
+        const checkExpiration = async () => {
+            const timerDocRef = doc(db, "timers", `${user.uid}_${timerID}`);
+            const snap = await getDoc(timerDocRef);
+
+            if (snap.exists() && snap.data().hasExpired === true) {
+                navigate("/"); // Redirect if already expired
+            } else {
+                setLoading(false); // Show form
+            }
+        };
+
+        checkExpiration();
+    }, [user, navigate]);
+
+    const handleExpire = async () => {
+        if (hasExpired.current || !user) return;
+        hasExpired.current = true;
+
+        const timerDocRef = doc(db, "timers", `${user.uid}_${timerID}`);
+        await setDoc(timerDocRef, { hasExpired: true }, { merge: true });
+
+        alert("Time's Up");
+        navigate("/");
+    };
+
+    if (loading) return <p>Checking timer...</p>;
 
     return (
         <div
@@ -22,14 +55,14 @@ export const QuizEssay = (): React.ReactElement => {
                 gap: "10px"
             }}
         >
-            <DisplayTimer handleExpire={handleExpire} timerID="quizessay"/>
+            <DisplayTimer handleExpire={handleExpire} timerID={timerID} />
             <iframe 
-                src={import.meta.env.VITE_APP_GFORM_QUIZ_PG_LINK}
+                src={import.meta.env.VITE_APP_GFORM_QUIZ_ES_LINK}
                 width="640" 
-                height="1925" 
+                height="1925"
             >
                 Loading…
             </iframe>
         </div>
-    )
-}
+    );
+};
