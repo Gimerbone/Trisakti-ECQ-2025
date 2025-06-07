@@ -6,6 +6,7 @@ import { Biodata } from "./features/biodata/Biodata";
 import { QuizPG } from "./features/soal_pg/SoalPG";
 import { QuizEssay } from "./features/soal_essay/SoalEssay";
 import { LandingPage } from "./features/landing/LandingPage";
+import RedirectPage from "./components/redirect";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage/>} />
+          <Route path="/redirect" element={<RedirectPage/>} />
           <Route
             path="/biodata"
             element={

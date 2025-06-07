@@ -5,7 +5,7 @@ const RedirectPage = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Force redirect from iframe to full page
-      window.top?.location.replace("/biodata");
+      window.top?.location.replace("/quiz-pg");
     }
   }, []);
 
