@@ -1,0 +1,68 @@
+.root {
+    background-image: url('/bg.gif');
+    background-size: cover;      /* or 'contain' */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(255, 255, 255, 0.781);
+}
+.container {
+    width: 780px;
+    height: 360px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(255, 255, 255, 0.762);
+    border-radius: 25px;
+
+    gap: 15px;
+    box-shadow: 10px;
+}
+
+.container > h1 {
+    font-weight: 700;
+    font-size: 25px;
+    text-align: center;
+}
+
+.timeContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.timeContainer > p {
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+}
+
+.container > .loginButton {
+    width: 200px;
+    height: 50px;
+
+    margin-top: 10px;
+
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    background-color: rgb(76, 76, 76);
+    border-radius: 10px;
+}
